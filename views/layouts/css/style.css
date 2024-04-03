@@ -18,3 +18,20 @@ background: linear-gradient(0deg, rgba(255,215,59,1) 0%, rgba(255,35,35,0.822566
     margin-top: 50px;
     margin-bottom: 50px
 }
+
+.new-joke-text {
+    font-size: 2rem;
+}
+
+.btn {
+    margin-top: 15px;
+}
+
+#login-btn:hover {
+    background-color: rgb(255, 128, 128);
+    color: white;
+}
+
+label{
+    margin-top: 20px;
+}
