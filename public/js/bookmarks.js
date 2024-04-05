@@ -1,4 +1,10 @@
 const bookmarkBtn = document.querySelectorAll('.bookmark-btn');
+const toastEl = document.querySelector('.toast');
+
+function showToast() {
+	const toast = new bootstrap.Toast(toastEl);
+	toast.show();
+}
 
 const bookmark = async (e) => {
 	const postId = e.target.getAttribute('post-id');
@@ -12,7 +18,7 @@ const bookmark = async (e) => {
 			if (res.ok) {
 				location.reload();
 			} else {
-				alert('ERROR');
+				alert('ERROR, something went wrong.');
 			}
 		});
 	} else {
@@ -22,7 +28,8 @@ const bookmark = async (e) => {
 			if (res.ok) {
 				location.reload();
 			} else {
-				alert('ERROR');
+				// alert('ERROR, must be logged in to save a joke!');
+				showToast();
 			}
 		});
 	}

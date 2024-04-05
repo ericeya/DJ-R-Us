@@ -4,32 +4,19 @@
 	margin: 0;
 }
 
-.nav {
-	/* margin-left: 69%; */
-	/* margin-top: 100px; */
-
-	font-size: 30px;
+#navbarlinks a,
+#navbarlinks button {
+	font-size: 2rem;
 }
 
 .headers {
-	/* background: rgb(255,215,59);
-    background: linear-gradient(0deg, rgba(255,215,59,1) 0%, rgba(255,35,35,0.8225665266106442) 100%); */
 	border-bottom: 2px solid rgb(189, 189, 189);
 	margin-bottom: 2rem;
-}
-
-.navbar-brand {
-	/* font-size: 50px; */
 }
 
 .navbar-nav {
 	text-align: center;
 }
-
-/* #margin{
-    margin-top: 50px;
-    margin-bottom: 50px
-} */
 
 #navbarNav {
 	display: flex;
@@ -43,8 +30,8 @@
 }
 
 body {
-	width: 100vw;
-	height: 100vh;
+	width: 100%;
+	height: 100%;
 	background-image: linear-gradient(
 		to right top,
 		#026796,
@@ -88,10 +75,8 @@ footer {
 	width: 300px;
 	display: flex;
 	align-items: center;
-	/* justify-content: space-between; */
 	justify-content: center;
-	/* white-space: nowrap; */
-	font-size: 0.8rem;
+	font-size: 1.3rem;
 }
 
 .footer-container {
@@ -188,6 +173,7 @@ main {
 
 #login-container {
 	width: 60%;
+	margin-bottom: 2rem;
 }
 
 #error-container {
@@ -195,9 +181,7 @@ main {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	/* height: 100vh; */
 	margin-top: 5rem;
-
 	color: aliceblue;
 }
 .new-joke-text {
@@ -205,11 +189,18 @@ main {
 	color: white;
 }
 
-.signup-link {
+.signup-link,
+.change-pass-link {
 	margin-top: 1rem;
+	/* margin-bottom: -1rem; */
 }
-.signup-link a {
+.signup-link a,
+.change-pass-link a {
 	color: aliceblue;
+}
+
+.change-pass-link {
+	margin-bottom: 2rem;
 }
 
 .container-joke-card {
@@ -229,14 +220,20 @@ main {
 	border: 2px solid aliceblue;
 	border-radius: 10px;
 	margin-bottom: 2rem;
-	background-color: rgba(255, 255, 255, 0.4);
+	background-color: #9c6cb07a;
 	width: 70%;
+	box-shadow: 7px 7px #456ba7;
 }
 
 #jokeOTD-header {
 	border-bottom: 2px solid aliceblue;
 	padding-right: 0;
 	padding-left: 0;
+	background-color: #776cb079;
+}
+
+.jokeOTD-title {
+	font-size: 2rem;
 }
 
 .container-jokeOTD > div {
@@ -256,6 +253,32 @@ main {
 	padding: 0 1rem 0 1rem;
 }
 
+#authorname,
+#authorname a {
+	transition: all 1000ms;
+}
+
+#authorname:hover,
+#authorname a:hover {
+	transform: translateY(-10%);
+	text-shadow: 2px 2px 2px #7104ca;
+	transition: all 1000ms;
+}
+
+.fa-heart {
+	/* color: red  */
+}
+
+#like-button {
+	transition: all 500ms;
+}
+
+#like-button:hover {
+	transform: translateY(-15%);
+	color: rgb(255, 0, 76) !important;
+	transition: all 500ms;
+}
+
 #joke-card-footer {
 	border-top: 2px solid aliceblue;
 	padding-top: 0;
@@ -269,20 +292,17 @@ main {
 	display: flex;
 	flex-direction: row;
 }
-/* #bookmark-btn {
-    text-align: right;
-} */
-
-/* #joke-card-footer i {
-	margin-top: 1rem;
-} */
 
 #like-button,
 #comment-button,
 #bookmark-btn {
-	/* cursor: pointer; */
 	font-size: 2rem;
 	color: aliceblue;
+}
+
+.left-side-profile,
+.right-side-profile {
+	width: 40%;
 }
 
 .container-profile {
@@ -299,7 +319,6 @@ main {
 
 .container-profile-card > div {
 	padding: 1rem 2rem 1rem 2rem;
-	width: 30rem;
 	font-size: 1.3rem;
 	color: aliceblue;
 }
@@ -310,6 +329,7 @@ main {
 .yoursaves {
 	display: flex;
 	justify-content: space-around;
+	flex-direction: row;
 }
 #delete-btn {
 	text-align: right;
@@ -317,9 +337,18 @@ main {
 
 .post-btns,
 .bookmark-btn,
-.comment-btn{
+.comment-btn,
+.github-btn,
+.delete-btn,
+.comment-bubble {
 	background: none;
 	border: none;
+}
+
+#comments,
+#comment-form {
+	/* display:none !important; */
+	/* visibility: hidden; */
 }
 
 #joke-card-footer > div {
@@ -330,49 +359,157 @@ main {
 	border: 2px solid aliceblue;
 	border-radius: 10px;
 	margin-bottom: 2rem;
-    margin-top: -1.5rem;
+	margin-top: -1.5rem;
 	background-color: rgba(255, 255, 255, 0.3);
-    width: 75%;
-    /* float: right; */
+	width: 75%;
 }
 
 .container-comment-card > div {
 	padding: 1rem 2rem 1rem 2rem;
 	font-size: 1.3rem;
 	color: aliceblue;
-    
 }
 
-/* #comments{
-    float: right;
-} */
 .comment-group {
 	border: 2px solid aliceblue;
 	border-radius: 10px;
 	margin-bottom: 2rem;
-    margin-top: -1.5rem;
+	margin-top: -1.5rem;
 	background-color: rgba(255, 255, 255, 0.3);
-    width: 60%;
+	width: 60%;
 }
 
 .comment-form {
-    width: 100%;
+	width: 100%;
 	padding: 10px;
 	border: 1px solid #cccccc77;
 	border-radius: 5px;
 	box-sizing: border-box;
 	background: rgba(255, 255, 255, 0.1);
 	color: aliceblue;
-    display: flex;
+	display: flex;
 }
 
-#jokecontent{
-    background: rgba(255, 255, 255, 0.2);
-    color: rgb(255, 255, 255)
+#jokecontent {
+	background: rgba(255, 255, 255, 0.2);
+	color: rgb(255, 255, 255);
 }
 
-#btn-comment{
-    font-size: 2rem;
-    color: aliceblue;
-    margin-top: 1rem;
+#btn-comment {
+	font-size: 2rem;
+	color: aliceblue;
+	margin-top: 1rem;
+}
+#btn-github {
+	color: white;
+	font-size: 2rem;
+}
+
+#post-delete-btn {
+	color: white;
+}
+.github {
+	color: white;
+}
+
+#comments,
+#comment-form {
+	animation: slide-up 500ms forward;
+}
+
+#authorname,
+#postdate,
+#row-count-likes {
+	font-weight: bold;
+	font-size: 1.4rem;
+}
+#authorname a {
+	text-decoration: none;
+	color: white;
+	text-shadow: 2px 2px 2px rgb(255, 70, 255);
+}
+
+.container-movetop-btn {
+	position: fixed;
+	bottom: 13%;
+	right: 10%;
+}
+
+#back-to-top {
+	background-color: #b06bad;
+	border: none;
+	color: white;
+}
+
+#back-to-top a {
+	color: white;
+	text-decoration: none;
+}
+
+.bg-background-white {
+	background-color: whitesmoke !important;
+}
+
+.login-btn {
+	background-color: #cf6ba3;
+	border-color: #cf6ba3;
+}
+
+.error-msg {
+	font-size: 2rem;
+	font-weight: 800;
+}
+
+.login-msg {
+	font-size: 1rem;
+	font-weight: 500;
+}
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes fade-out {
+	100% {
+		opacity: 0;
+	}
+	0% {
+		opacity: 1;
+	}
+}
+
+@keyframes slide-up {
+	0% {
+		transform: translateY(100%);
+		opacity: 0;
+	}
+	100% {
+		transform: translateY(0%);
+		opacity: 1;
+	}
+}
+
+@keyframes slide-down {
+	0% {
+		transform: translateY(0%);
+	}
+	100% {
+		transform: translateY(100%);
+	}
+}
+
+@media screen and (max-width: 1000px) {
+	.yoursaves {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.left-side-profile,
+	.right-side-profile {
+		width: 80%;
+	}
 }

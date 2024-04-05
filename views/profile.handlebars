@@ -1,6 +1,6 @@
 {{!-- {{#each userJokes as |userjoke|}} --}}
 <div class="yoursaves" style="width: 90%; margin: auto">
-    
+
         <div class="left-side-profile">
             <div class="names text-white">
                 <h1>Your Jokes</h1>
@@ -16,32 +16,45 @@
                             {{likecounter}} likes
                         </div>
                     
-                        <div class="col-9" id ="delete-btn"><i class="fa-solid fa-trash-can"></i></div>
+                        <div class="col-9 text-end">
+                            <button class="delete-btn" id="post-delete-btn">
+                                <i class="fa-solid fa-trash-can" post-id='{{id}}'></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 {{/each}}
             </div>
         </div>
+
         <div class="right-side-profile">
             <div class="names text-white">
                 <h1>Saved</h1>
             </div>
             <div class="container-profile">
-                {{#each userSavedJokes as |usersavedjoke|}}
-                {{#if usersavedjoke.userSavedPost}}
+                {{#each userData.saves as |userdata|}}
+                {{!-- {{#if userdata.userSavedPost}} --}}
                 <div class="container-profile-card">
                     <div class="row">
-                        <div class="col-12">{{content}} {{punchline}}</div>
+                        <div class="col-10">{{content}} {{punchline}}</div>
+                        <div class="col-2 text-end" id="authorname"><a href="/profile/{{userdata.user.id}}"> @{{userdata.user.username}}</a></div>
                     </div>
                     <div class="row" id="row-count-likes">
                         <div class="col-3">
-                            {{likecounter}} likes
+                            {{likecount}} likes
                         </div>
-                        <div class="col-9" id ="delete-btn"><i class="fa-solid fa-trash-can"></i></div>
+                        <div class="col-9 text-end">
+                            <button class="delete-btn text-white" id="remove-bookmark-btn">
+                                <i class="fa-solid fa-trash-can" post-id="{{userdata.id}}"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-                {{/if}}
+                {{!-- {{/if}} --}}
                 {{/each}}
             </div>
         </div>
 </div>    
+
+<script src="/js/deletepost.js"></script>
+<script src="/js/removesaved.js"></script>

@@ -7,13 +7,14 @@ const axios = require('axios');
 
 // Get method
 router.get('/', async (req, res) => {
-	axios({
+	let jotd;
+	const jokeOftheDay = await axios({
 		method: 'get',
 		url: 'https://icanhazdadjoke.com/',
 		headers: { Accept: 'application/json' },
 	})
 		.then(function (response) {
-			console.log(response.data);
+			jotd = response.data
 		})
 		.catch((error) => {
 			console.log(error);
@@ -32,15 +33,38 @@ router.get('/', async (req, res) => {
 					model: User,
 					as: 'saves',
 				},
+				{
+					model: Comment,
+					include: [User],
+					attribute: ['date']
+				},
 			],
 			order: [['id', 'DESC']],
 		});
+		// const commentData = await Comment.findAll({
+		// 	include: [Post, User]
+		// });
+		// const comments = commentData.map((comment) => comment.toJSON())
+
 		const dadjokes = dadjokeData.map((jokes) => jokes.toJSON());
 		for (let i = 0; i < dadjokes.length; i++) {
-			dadjokes[i].createdAt = dayjs(dadjokes[i].createdAt).format('M/D/YYYY');
+			dadjokes[i].createdAt = dayjs(dadjokes[i].createdAt).format('M/D/YY');
 			const likecount = await dadjokeData[i].countLikes();
 			dadjokes[i].likecounter = likecount;
+			if (dadjokes[i].comments.length > 0) {
+				for (let j = 0; j < dadjokes[i].comments.length; j++) {
+					dadjokes[i].comments[j].createdAt = dayjs(dadjokes[i].comments[j].createdAt).format('M/D/YY');
+				}
+			}
+
+			// for (let j = 0; j < comments.length; j++) {
+			// 	if (comments[j].post.id === dadjokes[i].id) {
+			// 		dadjokes[i].comment[j] = comments.content
+			// 	}				
+			// }
 		}
+
+
 
 		if (req.session.loggedIn) {
 			for (let i = 0; i < dadjokes.length; i++) {
@@ -65,11 +89,16 @@ router.get('/', async (req, res) => {
 			}
 		}
 
-		// console.log(dadjokes);
 
+		// console.log(dadjokes);
+		console.log(dadjokes)
+
+		// console.log(jokeOftheDay)
 		res.render('home', {
 			dadjokes,
 			loggedIn: req.session.loggedIn,
+			jotd,
+			layout: 'main2'
 		});
 	} catch (err) {
 		console.log(err);
@@ -116,7 +145,6 @@ router.get('/profile', withAuth, async (req, res) => {
 					as: 'saves',
 				},
 			],
-			// order: [['id', 'DESC']],
 		});
 		const userJokes = userJokeData.map((jokes) => jokes.toJSON());
 		for (let i = 0; i < userJokes.length; i++) {
@@ -125,7 +153,44 @@ router.get('/profile', withAuth, async (req, res) => {
 			userJokes[i].likecounter = likecount;
 		}
 
-		const userJokeDataForSaved = await Post.findAll({
+		const userSavedData = await User.findByPk(req.session.user.id, {
+			include: [
+				{
+					association: 'saves',
+					include: [
+						User,
+						{
+							association: 'likes',
+						},
+					],
+				},
+			],
+		});
+
+		const userData = userSavedData.toJSON();
+
+		for (let i = 0; i < userData.saves.length; i++) {
+			userData.saves[i].likecount = userSavedData.saves[i].likes.length;
+		}
+		
+		res.render('profile', {
+			userJokes,
+			userData,
+			layout: "profilemain",
+			loggedIn: req.session.loggedIn
+		});
+
+
+	} catch (err) {
+		console.log(err)
+		res.status(500).json({ msg: 'error occurred', err })
+	}
+});
+
+router.get('/profile/:id', withAuth, async (req, res) => {
+	try {
+		const userJokeData = await Post.findAll({
+			where: { userId: req.params.id },
 			include: [
 				User,
 				{
@@ -137,37 +202,59 @@ router.get('/profile', withAuth, async (req, res) => {
 					model: User,
 					as: 'saves',
 				},
+				{
+					model: Comment,
+					include: [User],
+					attribute: ['date']
+				},
 			],
-			// order: [['id', 'DESC']],
 		});
-
-		const userSavedJokes = userJokeDataForSaved.map((jokes) => jokes.toJSON());
-		for (let i = 0; i < userSavedJokes.length; i++) {
-			for (let j = 0; j < userSavedJokes[i].saves.length; j++) {
-				if (userSavedJokes[i].saves[j].id === req.session.user.id) {
-					userSavedJokes[i].userSavedPost = true;
-				} else {
-					userSavedJokes[i].userSavedPost = false;
+		const userJokes = userJokeData.map((jokes) => jokes.toJSON());
+		for (let i = 0; i < userJokes.length; i++) {
+			userJokes[i].createdAt = dayjs(userJokes[i].createdAt).format('M/D/YYYY');
+			const likecount = await userJokeData[i].countLikes();
+			userJokes[i].likecounter = likecount;
+			if (userJokes[i].comments.length > 0) {
+				for (let j = 0; j < userJokes[i].comments.length; j++) {
+					userJokes[i].comments[j].createdAt = dayjs(userJokes[i].comments[j].createdAt).format('M/D/YY');
 				}
 			}
 		}
-		// console.log(userJokes)
-		console.log(userSavedJokes)
 
-		// console.log(userSavedJokes)
-		// // Check bookmarks
-		// for (let i = 0; i < dadjokes.length; i++) {
-		// 	for (let j = 0; j < dadjokes[i].saves.length; j++) {
-		// 		if (dadjokes[i].saves[j].id === req.session.user.id) {
-		// 			dadjokes[i].userBookmarkStatus = true;
-		// 		} else {
-		// 			dadjokes[i].userBookmarkStatus = false;
-		// 		}
-		// 	}
-		// }
-		res.render('profile', {
+		if (req.session.loggedIn) {
+			for (let i = 0; i < userJokes.length; i++) {
+				for (let j = 0; j < userJokes[i].likes.length; j++) {
+					if (userJokes[i].likes[j].id === req.session.user.id) {
+						userJokes[i].userLikeStatus = true;
+					} else {
+						userJokes[i].userLikeStatus = false;
+					}
+				}
+			}
+
+			// Check bookmarks
+			for (let i = 0; i < userJokes.length; i++) {
+				for (let j = 0; j < userJokes[i].saves.length; j++) {
+					if (userJokes[i].saves[j].id === req.session.user.id) {
+						userJokes[i].userBookmarkStatus = true;
+					} else {
+						userJokes[i].userBookmarkStatus = false;
+					}
+				}
+			}
+		}
+
+		const userProfile = await User.findByPk(req.params.id)
+		const user = userProfile.toJSON()
+
+		console.log(userJokes)
+		
+
+		res.render('userprofile', {
 			userJokes,
-			userSavedJokes
+			loggedIn: req.session.loggedIn,
+			user
+
 		});
 
 
